@@ -164,7 +164,7 @@ class ApiPaginator
     public function nextPageNumber()
     {
         $page = $this->page();
-        if ($page == $this->lastPageNumber()) {
+        if ($page >= $this->lastPageNumber()) {
             return;
         }
 
