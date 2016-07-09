@@ -3,6 +3,7 @@
 namespace Scp\Server;
 
 use Scp\Api\ApiModel;
+use Scp\Api\ApiQuery;
 use Scp\Entity\Entity;
 use Scp\Support\Collection;
 
@@ -32,6 +33,18 @@ class Server extends ApiModel
             ->all();
 
         return $this->entities;
+    }
+
+    /**
+     * @return ApiQuery <Install>
+     */
+    public function installs()
+    {
+        $query = Install::query();
+
+        $query->model()->server_id = $this->id;
+
+        return $query;
     }
 
     /**

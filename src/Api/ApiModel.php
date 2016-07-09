@@ -57,8 +57,12 @@ abstract class ApiModel
         $this->exists = $exists;
     }
 
-    public function save()
+    public function save(array $data = [])
     {
+        foreach ($data as $key => $value) {
+            $this->setAttribute($key, $value);
+        }
+
         if ($this->exists()) {
             return $this->patch();
         }
