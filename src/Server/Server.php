@@ -7,6 +7,9 @@ use Scp\Api\ApiQuery;
 use Scp\Entity\Entity;
 use Scp\Support\Collection;
 
+/**
+ * Server storage representation.
+ */
 class Server extends ApiModel
 {
     /**
@@ -14,6 +17,9 @@ class Server extends ApiModel
      */
     protected $entities;
 
+    /**
+     * @return string
+     */
     public function path()
     {
         return sprintf(
@@ -22,6 +28,9 @@ class Server extends ApiModel
         );
     }
 
+    /**
+     * @return Collection
+     */
     public function entities()
     {
         if ($this->entities !== null) {
@@ -58,13 +67,35 @@ class Server extends ApiModel
     }
 
     /**
+     * @return ApiQuery <Access>
+     */
+    public function accesses()
+    {
+        $query = Access::query();
+
+        $query->model()->server_id = $this->id;
+
+        return $query;
+    }
+
+    /**
+     * The primary Access, if it exists.
+     *
+     * @return Access|null
+     */
+    public function access()
+    {
+        return $this->accesses()->where('is_primary', true)->first();
+    }
+
+    /**
      * Suspend the Server on Synergy.
      *
      * @return $this
      */
     public function suspend()
     {
-        return $this->patch(['is_active' => '0']);
+        return $this->access()->patch(['is_active' => false]);
     }
 
     /**
@@ -74,7 +105,7 @@ class Server extends ApiModel
      */
     public function unsuspend()
     {
-        return $this->patch(['is_active' => '1']);
+        return $this->access()->patch(['is_active' => true]);
     }
 
     /**
