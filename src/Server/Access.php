@@ -15,7 +15,7 @@ class Access extends ApiModel
     {
         return sprintf(
             'server/%s/access/%s',
-            $this->server_id ?: '*',
+            $this->server ? $this->server->id : '*',
             $this->id
         );
     }

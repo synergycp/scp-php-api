@@ -73,7 +73,9 @@ class Server extends ApiModel
     {
         $query = Access::query();
 
-        $query->model()->server_id = $this->id;
+        $query->model()->server = (object) [
+            'id' => $this->id,
+        ];
 
         return $query;
     }
