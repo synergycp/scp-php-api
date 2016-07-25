@@ -13,9 +13,19 @@ use Scp\Support\Collection;
 class Server extends ApiModel
 {
     /**
+     * @var int
+     */
+    const NOT_CACHED = -1;
+
+    /**
      * @var Collection|null
      */
     protected $entities;
+
+    /**
+     * @var Access|null|self::NOT_CACHED
+     */
+    protected $access;
 
     /**
      * @return string
@@ -87,7 +97,10 @@ class Server extends ApiModel
      */
     public function access()
     {
-        return $this->accesses()->where('is_primary', true)->first();
+        return $this->access = $this->access === self::NOT_CACHED
+            ? $this->accesses()->where('is_primary', true)->first()
+            : $this->access
+            ;
     }
 
     /**

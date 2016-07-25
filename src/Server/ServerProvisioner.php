@@ -5,6 +5,11 @@ namespace Scp\Server;
 use Scp\Api\Api;
 use Scp\Client\Client;
 
+/**
+ * Provision Servers.
+ *
+ * TODO: Rename to ServerInventory, rename server method to provision
+ */
 class ServerProvisioner
 {
     /**
@@ -17,6 +22,9 @@ class ServerProvisioner
      */
     protected $servers;
 
+    /**
+     * @param Api|null $api
+     */
     public function __construct(Api $api = null)
     {
         $this->api = $api ?: Api::instance();
@@ -29,18 +37,13 @@ class ServerProvisioner
      *
      * @param  array  $filters
      * @param  array  $set
-     * @param  Client [$client]
+     * @param  Client $client
      *
      * @return Server|null
      */
     public function server(array $filters, array $set, Client $client)
     {
-        $filters = $this->addDefaultFilters($filters);
-        // TODO: pass filters as server_filters instead of server_id
-        $server = $this->servers->query()
-            ->where($filters)
-            ->first();
-        if (!$server) {
+        if (!$server = $this->check($filters)) {
             return;
         }
 
@@ -61,6 +64,25 @@ class ServerProvisioner
         return $server;
     }
 
+    /**
+     * @param array $filters
+     *
+     * @return Server|null
+     */
+    public function check(array $filters)
+    {
+        $filters = $this->addDefaultFilters($filters);
+
+        return $this->servers->query()
+            ->where($filters)
+            ->first();
+    }
+
+    /**
+     * @param array $filters
+     *
+     * @return array
+     */
     private function addDefaultFilters(array $filters)
     {
         return array_merge(
