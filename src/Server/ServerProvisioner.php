@@ -73,9 +73,11 @@ class ServerProvisioner
     {
         $filters = $this->addDefaultFilters($filters);
 
-        return $this->servers->query()
+        return $this->servers
+            ->query()
             ->where($filters)
-            ->first();
+            ->first()
+            ;
     }
 
     /**
@@ -89,6 +91,9 @@ class ServerProvisioner
             $filters,
             [
                 'available' => true,
+                'parts' => [
+                    'exact' => true,
+                ],
             ]
         );
     }
