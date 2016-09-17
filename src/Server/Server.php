@@ -49,7 +49,8 @@ class Server extends ApiModel
 
         $this->entities = Entity::query()
             ->where('server', $this->getId())
-            ->all();
+            ->all()
+            ;
 
         return $this->entities;
     }
