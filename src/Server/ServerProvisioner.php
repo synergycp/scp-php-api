@@ -39,11 +39,11 @@ class ServerProvisioner
      * @param  array  $set
      * @param  Client $client
      *
-     * @return Server|null
+     * @return Server|void
      */
     public function server(array $filters, array $set, Client $client)
     {
-        if (!$server = $this->check($filters)) {
+        if (!$server = $this->getServer($filters)) {
             return;
         }
 
@@ -67,9 +67,9 @@ class ServerProvisioner
     /**
      * @param array $filters
      *
-     * @return Server|null
+     * @return Server|void
      */
-    public function check(array $filters)
+    public function getServer(array $filters)
     {
         $filters = $this->addDefaultFilters($filters);
 
@@ -79,6 +79,8 @@ class ServerProvisioner
             ->first()
             ;
     }
+
+
 
     /**
      * @param array $filters
