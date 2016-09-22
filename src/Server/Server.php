@@ -25,7 +25,7 @@ class Server extends ApiModel
     /**
      * @var Access|null|self::NOT_CACHED
      */
-    protected $access;
+    protected $access = self::NOT_CACHED;
 
     /**
      * @return string
