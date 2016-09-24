@@ -2,15 +2,15 @@
 
 namespace Scp\Server;
 
-use Scp\Api\ApiModel;
-use Scp\Api\ApiQuery;
+use Scp\Api;
 use Scp\Entity\Entity;
 use Scp\Support\Collection;
 
 /**
  * Server storage representation.
  */
-class Server extends ApiModel
+class Server
+extends Api\ApiModel
 {
     /**
      * @var int
@@ -56,7 +56,7 @@ class Server extends ApiModel
     }
 
     /**
-     * @return ApiQuery <Install>
+     * @return Api\ApiQuery <Install>
      */
     public function installs()
     {
@@ -70,6 +70,8 @@ class Server extends ApiModel
     /**
      * Wipe the Server on Synergy.
      *
+     * DO NOT use this method for auto wipes: use autoWipe instead.
+     *
      * @return $this
      */
     public function wipe()
@@ -78,7 +80,36 @@ class Server extends ApiModel
     }
 
     /**
-     * @return ApiQuery <Access>
+     * Wipe the Server on Synergy.
+     *
+     * Specifies that this action was done automatically instead of manually.
+     * This can change the functionality of billing suspensions for VIP clients.
+     *
+     * @return $this
+     *
+     * @throws Api\ApiResponseError
+     * @throws Exceptions\AutoWipeIgnored
+     */
+    public function autoWipe()
+    {
+        try {
+            $this->patch([
+                'wiped' => '1',
+                'auto' => true,
+            ]);
+
+            return $this;
+        } catch (Api\ApiResponseError $exc) {
+            if ($exc->response->data()->ignored) {
+                throw new Exceptions\AutoWipeIgnored();
+            }
+
+            throw $exc;
+        }
+    }
+
+    /**
+     * @return Api\ApiQuery <Access>
      */
     public function accesses()
     {
@@ -107,11 +138,44 @@ class Server extends ApiModel
     /**
      * Suspend the Server on Synergy.
      *
+     * DO NOT use this method for auto suspensions: use autoSuspend instead.
+     *
      * @return $this
      */
     public function suspend()
     {
-        return $this->access()->patch(['is_active' => false]);
+        $this->access()->patch(['is_active' => false]);
+
+        return $this;
+    }
+
+    /**
+     * Suspend the Server on Synergy.
+     *
+     * Specifies that this action was done automatically instead of manually.
+     * This can change the functionality of billing suspensions for VIP clients.
+     *
+     * @return $this
+     *
+     * @throws Api\ApiResponseError
+     * @throws Exceptions\AutoSuspendIgnored
+     */
+    public function autoSuspend()
+    {
+        try {
+            $this->access()->patch([
+                'is_active' => false,
+                'auto' => true,
+            ]);
+
+            return $this;
+        } catch (Api\ApiResponseError $exc) {
+            if ($exc->response->data()->ignored) {
+                throw new Exceptions\AutoSuspendIgnored();
+            }
+
+            throw $exc;
+        }
     }
 
     /**
@@ -121,7 +185,9 @@ class Server extends ApiModel
      */
     public function unsuspend()
     {
-        return $this->access()->patch(['is_active' => true]);
+        $this->access()->patch(['is_active' => true]);
+
+        return $this;
     }
 
     /**

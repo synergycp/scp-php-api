@@ -2,7 +2,11 @@
 
 namespace Scp\Api;
 
-class ApiTransport implements ApiTransporter
+/**
+ * CURL API Transporter.
+ */
+class ApiTransport
+implements ApiTransporter
 {
     /**
      * Dispatch the request.
@@ -15,6 +19,7 @@ class ApiTransport implements ApiTransporter
      * @return ApiResponse
      *
      * @throws ApiError
+     * @throws ApiResponseError
      */
     public function call($method, $url, $postData, array $headers)
     {
@@ -34,8 +39,12 @@ class ApiTransport implements ApiTransporter
             throw new ApiError(curl_error($curl));
         }
 
+        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
         curl_close($curl);
 
-        return new ApiResponse($body);
+        $request = new ApiRequest($method, $url);
+
+        return new ApiResponse($request, $body, $status);
     }
 }
