@@ -40,7 +40,7 @@ class ApiResponse
 
         // Force errors to show if they've happened.
         if ($this->decode()->error !== false) {
-            throw new ApiResponseError($this);
+            throw new ApiResponseError('', null, null, $this);
         }
     }
 
