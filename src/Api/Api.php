@@ -25,6 +25,17 @@ class Api
      */
     protected $apiKey;
 
+    /**
+     * @var ApiTransporter
+     */
+    protected $transport;
+
+    /**
+     * Api constructor.
+     *
+     * @param string $url
+     * @param string $apiKey
+     */
     public function __construct($url, $apiKey)
     {
         $this->url = rtrim($url, '/');

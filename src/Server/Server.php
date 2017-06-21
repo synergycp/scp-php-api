@@ -140,11 +140,16 @@ extends Api\ApiModel
      *
      * DO NOT use this method for auto suspensions: use autoSuspend instead.
      *
+     * @param string $reason
+     *
      * @return $this
      */
-    public function suspend()
+    public function suspend($reason)
     {
-        $this->access()->patch(['is_active' => false]);
+        $this->access()->patch([
+            'is_active' => false,
+            'suspension_reason' => $reason,
+        ]);
 
         return $this;
     }
@@ -155,17 +160,19 @@ extends Api\ApiModel
      * Specifies that this action was done automatically instead of manually.
      * This can change the functionality of billing suspensions for VIP clients.
      *
-     * @return $this
+     * @param string $reason
      *
+     * @return $this
      * @throws Api\ApiResponseError
      * @throws Exceptions\AutoSuspendIgnored
      */
-    public function autoSuspend()
+    public function autoSuspend($reason)
     {
         try {
             $this->access()->patch([
                 'is_active' => false,
                 'auto' => true,
+                'suspension_reason' => $reason,
             ]);
 
             return $this;
