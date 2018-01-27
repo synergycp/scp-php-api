@@ -163,14 +163,47 @@ class Api
         return "$this->url/$path?" . http_build_query($data);
     }
 
+    /**
+     * @param string $slug
+     *
+     * @return \stdClass|void
+     * @throws ApiError
+     */
+    public function findSettingBySlug($slug)
+    {
+        $settings = $this->get('/setting-group/1')->data()->settings;
+        foreach ($settings as $setting) {
+            if ($setting->slug === $slug) {
+                return $setting;
+            }
+        }
+    }
+
+    /**
+     * This requires making a request to the SynergyCP API so should only be used from a redirect,
+     * it should not be used as the href for a link for example.
+     *
+     * @param string $path
+     *
+     * @return string
+     * @throws ApiError
+     */
+    public function getAdminUrlFromApi($path = '')
+    {
+        if (!$adminUrl = $this->findSettingBySlug('admin_url')) {
+            throw new ApiError('admin_url setting missing on SynergyCP');
+        }
+
+        return sprintf(
+            "%s/%s",
+            $adminUrl->value,
+            $path
+        );
+    }
+
     public function baseUrl()
     {
         return $this->url;
-    }
-
-    public function siteUrl()
-    {
-        return substr($this->url, 0, strrpos($this->url, '/'));
     }
 
     /**
