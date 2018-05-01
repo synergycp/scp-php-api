@@ -52,9 +52,16 @@ abstract class ApiModel
         return $this->id;
     }
 
+    /**
+     * @param bool $exists
+     *
+     * @return $this
+     */
     public function setExists($exists)
     {
         $this->exists = $exists;
+
+        return $this;
     }
 
     public function save(array $data = [])
@@ -73,6 +80,22 @@ abstract class ApiModel
     public function delete(array $data = [])
     {
         $this->api->delete($this->path(), $data);
+    }
+
+    /**
+     * Return the full model instance, which often has more detail than ones
+     * returned from a list search.
+     * @return static
+     * @throws ApiError
+     */
+    public function full()
+    {
+        return (new static(
+            (array)$this->api
+                ->get($this->path())
+                ->data(),
+            $this->api
+        ))->setExists(true);
     }
 
     /**
