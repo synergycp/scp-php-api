@@ -68,7 +68,7 @@ class ApiResponse
     }
 
     /**
-     * @return string|void
+     * @return string|null
      */
     public function error()
     {
@@ -112,7 +112,14 @@ class ApiResponse
         ];
         $error = json_last_error();
         if (array_key_exists($error, $errors)) {
-            throw new JsonDecodingError($errors[$error], $this->body);
+            $error_desc = sprintf(
+                '%s with %s %s',
+                $errors[$error],
+                $this->request->method,
+                $this->request->url
+            );
+
+            throw new JsonDecodingError($error_desc, $this->body);
         }
     }
 }
