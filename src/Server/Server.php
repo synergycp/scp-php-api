@@ -3,6 +3,7 @@
 namespace Scp\Server;
 
 use Scp\Api;
+use Scp\Client\Client;
 use Scp\Entity\Entity;
 use Scp\Support\Collection;
 
@@ -168,8 +169,21 @@ extends Api\ApiModel
      */
     public function autoSuspend($reason)
     {
+        $this->autoSuspendAccess($this->access(), $reason);
+    }
+
+    /**
+     * @param Access $access
+     * @param        $reason
+     *
+     * @return $this
+     * @throws Api\ApiResponseError
+     * @throws Exceptions\AutoSuspendIgnored
+     */
+    public function autoSuspendAccess(Access $access, $reason)
+    {
         try {
-            $this->access()->patch([
+            $access->patch([
                 'is_active' => false,
                 'auto' => true,
                 'suspension_reason' => $reason,
@@ -186,13 +200,47 @@ extends Api\ApiModel
     }
 
     /**
+     * @param $reason
+     *
+     * @return Api\Pagination\ApiPaginator
+     */
+    public function autoSuspendSubClients($reason)
+    {
+        return $this->accesses()->where('is_primary', false)->get()->each(function (Access $access) use ($reason) {
+            $this->autoSuspendAccess($access, $reason);
+        });
+    }
+
+    /**
+     * @return Api\Pagination\ApiPaginator
+     */
+    public function unsuspendSubClients()
+    {
+        return $this->accesses()->where('is_primary', false)->get()->each(function (Access $access) {
+            $this->unsuspendAccess($access);
+        });
+    }
+
+    /**
      * Unsuspend the Server on Synergy.
      *
      * @return $this
      */
     public function unsuspend()
     {
-        $this->access()->patch(['is_active' => true]);
+        return $this->unsuspendAccess($this->access());
+    }
+
+    /**
+     * Unsuspend the Server on Synergy.
+     *
+     * @param Access $access
+     *
+     * @return $this
+     */
+    public function unsuspendAccess(Access $access)
+    {
+        $access->patch(['is_active' => true]);
 
         return $this;
     }
@@ -205,5 +253,20 @@ extends Api\ApiModel
     public function activate()
     {
         return $this->unsuspend();
+    }
+
+    /**
+     * @param Client $client
+     */
+    public function grantAccess(Client $client)
+    {
+        $this->api()->post($this->path().'/access', [
+            'client' => [
+                'id' => $client->getId(),
+            ],
+            'pxe' => true,
+            'ipmi' => true,
+            'switch' => true,
+        ]);
     }
 }
