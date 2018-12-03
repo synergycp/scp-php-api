@@ -2,8 +2,6 @@
 
 namespace Scp\Api;
 
-use Scp\Api\Api;
-
 abstract class ApiRepository
 {
     /**
@@ -21,6 +19,11 @@ abstract class ApiRepository
         $this->api = $api ?: Api::instance();
     }
 
+    /**
+     * @param array $info
+     *
+     * @return ApiModel
+     */
     public function make(array $info = [])
     {
         return new $this->class($info, $this->api);
@@ -46,5 +49,16 @@ abstract class ApiRepository
     public function query()
     {
         return new ApiQuery($this->make());
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return null|ApiModel
+     * @throws ApiError
+     */
+    public function findById($id)
+    {
+        return $this->make(['id' => $id])->full();
     }
 }
