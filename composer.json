@@ -1,6 +1,6 @@
 {
 	"name": "cabloo/scp-integration",
-	"description": "Synergy Control Panel PHP Integration",
+	"description": "SynergyCP-Sharktech PHP Integration",
 	"keywords": ["Synergy", "Server", "Control", "Panel", "Dedicated"],
 	"license": "none",
 	"type": "project",
