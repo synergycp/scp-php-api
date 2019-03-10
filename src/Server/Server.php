@@ -1,42 +1,42 @@
 <?php
-//
-// namespace Scp\Server;
-//
-// use Scp\Api;
-// use Scp\Entity\Entity;
-// use Scp\Support\Collection;
-//
-// /**
-//  * Server storage representation.
-//  */
-// class Server
-// extends Api\ApiModel
-// {
-//     /**
-//      * @var int
-//      */
-//     const NOT_CACHED = -1;
-//
-//     /**
-//      * @var Collection|null
-//      */
-//     protected $entities;
-//
-//     /**
-//      * @var Access|null|self::NOT_CACHED
-//      */
-//     protected $access = self::NOT_CACHED;
-//
-//     /**
-//      * @return string
-//      */
-//     public function path()
-//     {
-//         return sprintf(
-//             'server/%s',
-//             $this->id
-//         );
-//     }
+
+namespace Scp\Server;
+
+use Scp\Api;
+use Scp\Entity\Entity;
+use Scp\Support\Collection;
+
+/**
+ * Server storage representation.
+ */
+class Server
+extends Api\ApiModel
+{
+    /**
+     * @var int
+     */
+    const NOT_CACHED = -1;
+
+    /**
+     * @var Collection|null
+     */
+    protected $entities;
+
+    /**
+     * @var Access|null|self::NOT_CACHED
+     */
+    protected $access = self::NOT_CACHED;
+
+    /**
+     * @return string
+     */
+    public function path()
+    {
+        return sprintf(
+            'server/%s',
+            $this->id
+        );
+    }
 
     // /**
     //  * @return Collection
@@ -54,7 +54,7 @@
     //
     //     return $this->entities;
     // }
-
+    //
     // /**
     //  * @return Api\ApiQuery <Install>
     //  */
@@ -66,7 +66,7 @@
     //
     //     return $query;
     // }
-
+    //
     // /**
     //  * Wipe the Server on Synergy.
     //  *
@@ -78,7 +78,7 @@
     // {
     //     return $this->patch(['wiped' => '1']);
     // }
-
+    //
     // /**
     //  * Wipe the Server on Synergy.
     //  *
@@ -121,7 +121,7 @@
     //
     //     return $query;
     // }
-
+    //
     // /**
     //  * The primary Access, if it exists.
     //  *
@@ -134,7 +134,7 @@
     //         : $this->access
     //         ;
     // }
-
+    //
     // /**
     //  * Suspend the Server on Synergy.
     //  *
@@ -153,7 +153,7 @@
     //
     //     return $this;
     // }
-
+    //
     // /**
     //  * Suspend the Server on Synergy.
     //  *
@@ -184,7 +184,7 @@
     //         throw $exc;
     //     }
     // }
-
+    //
     // /**
     //  * Unsuspend the Server on Synergy.
     //  *
@@ -196,7 +196,7 @@
     //
     //     return $this;
     // }
-
+    //
     // /**
     //  * Alias for unsuspend.
     //  *
