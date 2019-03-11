@@ -108,32 +108,32 @@ extends Api\ApiModel
     //     }
     // }
 
-    // /**
-    //  * @return Api\ApiQuery <Access>
-    //  */
-    // public function accesses()
-    // {
-    //     $query = Access::query();
-    //
-    //     $query->model()->server = (object) [
-    //         'id' => $this->id,
-    //     ];
-    //
-    //     return $query;
-    // }
-    //
-    // /**
-    //  * The primary Access, if it exists.
-    //  *
-    //  * @return Access|null
-    //  */
-    // public function access()
-    // {
-    //     return $this->access = $this->access === self::NOT_CACHED
-    //         ? $this->accesses()->where('is_primary', true)->first()
-    //         : $this->access
-    //         ;
-    // }
+    /**
+     * @return Api\ApiQuery <Access>
+     */
+    public function accesses()
+    {
+        $query = Access::query();
+
+        $query->model()->server = (object) [
+            'id' => $this->id,
+        ];
+
+        return $query;
+    }
+
+    /**
+     * The primary Access, if it exists.
+     *
+     * @return Access|null
+     */
+    public function access()
+    {
+        return $this->access = $this->access === self::NOT_CACHED
+            ? $this->accesses()->where('is_primary', true)->first()
+            : $this->access
+            ;
+    }
     //
     // /**
     //  * Suspend the Server on Synergy.
