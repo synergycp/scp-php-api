@@ -4,6 +4,7 @@ namespace Scp\Server;
 
 use Scp\Api\Api;
 use Scp\Client\Client;
+use Scp\Support\Collection;
 
 /**
  * Provision Servers.
@@ -79,8 +80,22 @@ class ServerProvisioner
             ->first()
             ;
     }
-
-
+    // 
+    // /**
+    //  * @param array $filters
+    //  *
+    //  * @return array
+    //  */
+    // public function getServers(array $filters)
+    // {
+    //     $filters = $this->addDefaultFilters($filters);
+    //
+    //     return $this->servers
+    //         ->query()
+    //         ->where($filters)
+    //         ->all()
+    //         ;
+    // }
 
     /**
      * @param array $filters
