@@ -4,7 +4,6 @@ namespace Scp\Server;
 
 use Scp\Api\Api;
 use Scp\Client\Client;
-use Scp\Support\Collection;
 
 /**
  * Provision Servers.
@@ -80,6 +79,7 @@ class ServerProvisioner
             ->first()
             ;
     }
+
 
     /**
      * @param array $filters
