@@ -1,4 +1,7 @@
 <?php
+
+namespace Scp;
+
 use Scp\Client\Client;
 use Scp\Client\ClientRepository;
 

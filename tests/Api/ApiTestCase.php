@@ -1,5 +1,7 @@
 <?php
 
+namespace Scp;
+
 use Scp\Api\Api;
 
 abstract class ApiTestCase extends TestCase

@@ -1,5 +1,7 @@
 <?php
 
+namespace Scp;
+
 class ApiServerTest extends ApiTestCase
 {
     public function testList()
