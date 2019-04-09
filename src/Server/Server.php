@@ -260,13 +260,17 @@ extends Api\ApiModel
      */
     public function grantAccess(Client $client)
     {
-        $this->api()->post($this->path().'/access', [
-            'client' => [
-                'id' => $client->getId(),
-            ],
-            'pxe' => true,
-            'ipmi' => true,
-            'switch' => true,
-        ]);
+        try {
+            $this->api()->post($this->path().'/access', [
+                'client' => [
+                    'id' => $client->getId(),
+                ],
+                'pxe' => true,
+                'ipmi' => true,
+                'switch' => true,
+            ]);
+        } catch (\Exception $exc) {
+            throw new \Exception('Server already has client assigned to it.');
+        }
     }
 }
