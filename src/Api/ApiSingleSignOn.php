@@ -73,13 +73,13 @@ class ApiSingleSignOn
     public function url()
     {
         $data = $this->urlHandler();
-        return $this->api->url('sso', $data);
+        return $this->api->url('auth/sso', $data);
     }
 
     public function embeddedUrl()
     {
         $data = $this->urlHandler();
-        return $this->api->url('sso/embed', $data);
+        return $this->api->url('auth/sso/embed', $data);
     }
 
     public function urlHandler()
