@@ -72,18 +72,30 @@ class ApiSingleSignOn
 
     public function url()
     {
-        $data = [
-            'key' => $this->key->key,
-        ];
-
-        if ($type = $this->viewType()) {
-            $data['view_type'] = $type;
-        }
-
-        if ($viewId = $this->viewId()) {
-            $data['view_id'] = $viewId;
-        }
-
+        $data = $this->urlHandler();
         return $this->api->url('sso', $data);
+    }
+
+    public function embeddedUrl()
+    {
+        $data = $this->urlHandler();
+        return $this->api->url('sso/embed', $data);
+    }
+
+    public function urlHandler()
+    {
+      $data = [
+          'key' => $this->key->key,
+      ];
+
+      if ($type = $this->viewType()) {
+          $data['view_type'] = $type;
+      }
+
+      if ($viewId = $this->viewId()) {
+          $data['view_id'] = $viewId;
+      }
+
+      return $data;
     }
 }
