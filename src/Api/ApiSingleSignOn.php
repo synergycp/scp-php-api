@@ -9,6 +9,8 @@ use Scp\Support\Arr;
 
 class ApiSingleSignOn
 {
+    private $embed;
+
     /**
      * @var array
      */
@@ -70,16 +72,16 @@ class ApiSingleSignOn
         return $this->view ? $this->view->getId() : null;
     }
 
+    public function embed()
+    {
+        $this->embed = true;
+        return $this;
+    }
+
     public function url()
     {
         $data = $this->urlHandler();
         return $this->api->url('auth/sso', $data);
-    }
-
-    public function embeddedUrl()
-    {
-        $data = $this->urlHandler();
-        return $this->api->url('auth/sso/embed', $data);
     }
 
     public function urlHandler()
@@ -94,6 +96,10 @@ class ApiSingleSignOn
 
       if ($viewId = $this->viewId()) {
           $data['view_id'] = $viewId;
+      }
+
+      if ($this->embed) {
+          $data['embed'] = $embed;
       }
 
       return $data;
