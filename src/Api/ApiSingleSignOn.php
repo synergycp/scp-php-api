@@ -99,7 +99,7 @@ class ApiSingleSignOn
       }
 
       if ($this->embed) {
-          $data['embed'] = $embed;
+          $data['embed'] = $this->embed;
       }
 
       return $data;
