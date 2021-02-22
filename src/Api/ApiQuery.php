@@ -59,6 +59,10 @@ class ApiQuery
         return $this->get(1)->items()->first();
     }
 
+    public function totalCount() {
+      return $this->get(1)->totalCount();
+    }
+
     /**
      * Run callback on each chunk of items.
      *
@@ -101,5 +105,9 @@ class ApiQuery
                 $callback($item);
             });
         });
+    }
+
+    public function forceUncachedTotalCount() {
+      return $this->where('force_refresh_count', true);
     }
 }

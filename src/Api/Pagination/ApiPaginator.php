@@ -4,7 +4,6 @@ namespace Scp\Api\Pagination;
 
 use Scp\Support\Collection;
 use Scp\Api\ApiQuery;
-use Scp\Server\Server;
 
 class ApiPaginator
 {
@@ -45,11 +44,15 @@ class ApiPaginator
      */
     public function items()
     {
-        if (!$this->items) {
-            $this->refresh();
-        }
+        $this->ensureHasResults();
 
         return $this->items;
+    }
+
+    private function ensureHasResults() {
+      if (!$this->items) {
+        $this->refresh();
+      }
     }
 
     public function refresh()
@@ -187,5 +190,11 @@ class ApiPaginator
     public function copy()
     {
         return clone $this;
+    }
+
+    public function totalCount() {
+      $this->ensureHasResults();
+
+      return $this->total;
     }
 }
