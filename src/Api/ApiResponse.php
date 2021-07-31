@@ -74,7 +74,7 @@ class ApiResponse
     {
         $decode = $this->decode();
 
-        return $decode && isset($decode->error) ? $decode->error : null;
+        return $decode && isset($decode->messages) && count($decode->messages) > 0 ? $decode->messages[0]->text : null;
     }
 
     /**
