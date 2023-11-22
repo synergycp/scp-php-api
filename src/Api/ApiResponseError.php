@@ -37,6 +37,6 @@ class ApiResponseError
             $args[] = $previous;
         }
 
-        call_user_func_array(array('parent', __construct), $args);
+        call_user_func_array(['parent', '__construct'], $args); 
     }
 }
