@@ -171,7 +171,7 @@ class Api
      */
     public function findSettingBySlug($slug)
     {
-        $settings = $this->get('/setting-group/1')->data()->settings;
+        $settings = $this->get('setting-group/1')->data()->settings;
         foreach ($settings as $setting) {
             if ($setting->slug === $slug) {
                 return $setting;
