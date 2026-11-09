@@ -25,6 +25,11 @@ class ApiPaginator
     /**
      * @var int
      */
+    protected $perPage;
+
+    /**
+     * @var int
+     */
     protected $lastPageNumber;
 
     /**
