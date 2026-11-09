@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 use Scp\Api\Api;
 use Scp\Api\ApiResponse;
 use Scp\Client\ClientRepository;
@@ -10,12 +12,12 @@ class ApiQueryTest extends \Scp\TestCase {
 		$this->response = Mockery::mock(ApiResponse::class);
 	}
 
-	/**
+/**
 	 * @param array $where
 	 * @param array $expectedFilters
 	 *
-	 * @dataProvider dataFilters
 	 */
+	#[DataProvider('dataFilters')]
 	public function testFilters(array $where, array $expectedFilters) {
 		$this->api
 			->shouldReceive('get')
@@ -43,7 +45,7 @@ class ApiQueryTest extends \Scp\TestCase {
 		$this->assertEmpty($query->get($perPage)->items());
 	}
 
-	public function dataFilters() {
+	public static function dataFilters() {
 		return [
 			[
 				$where = [

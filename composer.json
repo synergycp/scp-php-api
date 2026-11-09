@@ -1,33 +1,40 @@
 {
-	"name": "synergycp/scp-integration",
-	"description": "Synergy Control Panel PHP Integration",
-	"keywords": ["Synergy", "Server", "Control", "Panel", "Dedicated"],
-	"license": "none",
-	"type": "project",
-	"require": {
-	},
-	"require-dev": {
-		"mockery/mockery": "^0.9.4",
-    "phpunit/phpunit": "^8.0"
-	},
-	"repositories": [],
-	"autoload": {
-		"classmap": [
+    "name": "synergycp/scp-integration",
+    "description": "Synergy Control Panel PHP Integration",
+    "keywords": [
+        "Synergy",
+        "Server",
+        "Control",
+        "Panel",
+        "Dedicated"
+    ],
+    "license": "none",
+    "type": "project",
+    "require": {
+        "php": ">=8.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5",
+        "mockery/mockery": "^1.6"
+    },
+    "repositories": [],
+    "autoload": {
+        "classmap": [
             "bootstrap/autoload.php"
-		],
-		"psr-4": {
-			"Scp\\": "src"
-		}
-	},
-	"scripts": {
-		"post-install-cmd": [
-		],
-		"post-update-cmd": [
-		],
-		"post-create-project-cmd": [
-		]
-	},
-	"config": {
-		"preferred-install": "dist"
-	}
+        ],
+        "psr-4": {
+            "Scp\\": "src"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [],
+        "post-update-cmd": [],
+        "post-create-project-cmd": []
+    },
+    "config": {
+        "preferred-install": "dist",
+        "platform": {
+            "php": "8.3.0"
+        }
+    }
 }
