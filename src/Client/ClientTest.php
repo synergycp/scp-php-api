@@ -2,6 +2,8 @@
 
 namespace Scp\Client;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 use Scp\Api\Api;
 use Scp\Api\ApiResponse;
 
@@ -11,11 +13,11 @@ class ClientTest extends \Scp\TestCase {
 		$this->response = \Mockery::mock(ApiResponse::class);
 	}
 
-	/**
+/**
 	 * @param array $info
 	 *
-	 * @dataProvider dataCreate
 	 */
+	#[DataProvider('dataCreate')]
 	public function testCreate(array $info, array $expectedInfo) {
 		$this->response
 			->shouldReceive('data')
@@ -32,7 +34,7 @@ class ClientTest extends \Scp\TestCase {
 		$this->assertEquals($client->id, $clientId);
 	}
 
-	public function dataCreate() {
+	public static function dataCreate() {
 		return [
 			[
 				$data = [

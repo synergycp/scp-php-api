@@ -9,6 +9,16 @@ class ApiTransport
 implements ApiTransporter
 {
     /**
+     * Seconds to wait for a connection to the API host.
+     */
+    const CONNECT_TIMEOUT = 10;
+
+    /**
+     * Seconds to wait for the whole request to complete.
+     */
+    const TIMEOUT = 120;
+
+    /**
      * Dispatch the request.
      *
      * @param string $method
@@ -31,6 +41,8 @@ implements ApiTransporter
             CURLOPT_POSTFIELDS => $postData,
             CURLOPT_CUSTOMREQUEST => $method,
             CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_CONNECTTIMEOUT => static::CONNECT_TIMEOUT,
+            CURLOPT_TIMEOUT => static::TIMEOUT,
         ));
 
         $body = curl_exec($curl);

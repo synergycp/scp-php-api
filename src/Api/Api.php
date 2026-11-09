@@ -92,7 +92,11 @@ class Api
 
         if (strtoupper($method) != 'GET') {
             $getData = [];
-            $postData = json_encode($data);
+            $postData = json_encode($data, JSON_UNESCAPED_UNICODE);
+
+            if ($postData === false) {
+                throw new ApiError('Could not encode request body: ' . json_last_error_msg());
+            }
         }
 
         $url = $this->url($path, $getData);
